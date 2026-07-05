@@ -1,75 +1,165 @@
-# React + TypeScript + Vite
+# 📚 Artigos - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend da plataforma **Artigos**, desenvolvido com **React**, **TypeScript** e **Vite**.
 
-Currently, two official plugins are available:
+Este projeto é responsável pela interface da aplicação, permitindo que os usuários realizem autenticação, publiquem artigos, interajam com conteúdos e gerenciem suas informações.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O frontend consome a API desenvolvida em **NestJS**, disponível no repositório do backend.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Tecnologias
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- Vite
+- React Router DOM
+- TanStack Query (React Query)
+- Axios
+- Tailwind CSS
+- Lucide React
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📁 Estrutura do Projeto
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```text
+src/
+├── assets/
+├── components/
+├── hooks/
+├── pages/
+├── routes/
+├── services/
+├── styles/
+├── utils/
+├── App.tsx
+└── main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Pré-requisitos
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Antes de iniciar o projeto, certifique-se de possuir instalado:
+
+- Node.js 20+
+- pnpm (ou npm)
+
+---
+
+## 📦 Instalação
+
+Clone o repositório:
+
+```bash
+git clone <url-do-repositorio>
+```
+
+Acesse a pasta:
+
+```bash
+cd artigo-front
+```
+
+Instale as dependências:
+
+```bash
+pnpm install
+```
+
+---
+
+## ▶️ Executando o projeto
+
+Inicie o servidor de desenvolvimento:
+
+```bash
+pnpm dev
+```
+
+O projeto ficará disponível em:
 
 ```
+http://localhost:5173
+```
+
+---
+
+## 🔗 Backend
+
+Este projeto depende da API desenvolvida em NestJS.
+
+Configure a URL da API através do arquivo `.env`:
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+Caso o backend esteja utilizando outra porta, basta alterar o valor da variável.
+
+---
+
+## ✨ Funcionalidades
+
+- Autenticação de usuários
+- Login com e-mail e senha
+- Cadastro de usuários
+- Consumo da API utilizando Axios
+- Gerenciamento de estado assíncrono com TanStack Query
+- Rotas públicas e privadas
+- Interface responsiva
+- Componentes reutilizáveis
+
+---
+
+## 🛠️ Scripts
+
+Executar o projeto:
+
+```bash
+pnpm dev
+```
+
+Gerar build de produção:
+
+```bash
+pnpm build
+```
+
+Visualizar build:
+
+```bash
+pnpm preview
+```
+
+Executar o linter:
+
+```bash
+pnpm lint
+```
+
+---
+
+## 📌 Arquitetura
+
+O projeto foi estruturado visando escalabilidade e organização, seguindo uma divisão por responsabilidades:
+
+- **components** → Componentes reutilizáveis.
+- **pages** → Telas da aplicação.
+- **routes** → Gerenciamento das rotas públicas e privadas.
+- **services** → Comunicação com a API.
+- **hooks** → Hooks customizados.
+- **styles** → Estilos globais.
+
+---
+
+## 🎯 Objetivo
+
+Este projeto faz parte da plataforma **Artigos**, cujo objetivo é disponibilizar um ambiente para criação, gerenciamento e leitura de artigos, oferecendo uma experiência moderna, responsiva e de fácil utilização.
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Guilherme Parente**.
