@@ -5,10 +5,12 @@ import { TextInput } from "../../components/TextInput";
 import { useState } from "react";
 import { PasswordInput } from "../../components/PasswordInput";
 import { Btn } from "../../components/Btn";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   function GoogleIcon() {
     return (
@@ -112,7 +114,7 @@ const Login = () => {
       <p className="text-center text-sm text-muted-foreground">
         Não tem uma conta?{" "}
         <button
-          onClick={() => {}}
+          onClick={() => navigate("/register")}
           className="text-foreground font-semibold hover:underline underline-offset-2"
         >
           Criar conta

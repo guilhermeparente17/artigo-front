@@ -4,6 +4,7 @@ import { PrivateRoute } from "./PrivateRoute";
 
 import AppLayout from "./AppLayout";
 import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
 
 export function AppRoutes() {
   return (
@@ -12,7 +13,7 @@ export function AppRoutes() {
         {/* Rotas públicas */}
         <Route element={<AppLayout />}>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<div>register</div>} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         {/* Rotas privadas */}
