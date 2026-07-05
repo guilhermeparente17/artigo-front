@@ -5,6 +5,8 @@ import { Field } from "../../components/Field";
 import { TextInput } from "../../components/TextInput";
 import { PasswordInput } from "../../components/PasswordInput";
 import { Btn } from "../../components/Btn";
+import { useMutation } from "@tanstack/react-query";
+import { register } from "../../services/Auth/register";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,9 +15,27 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
 
+  const mutation = useMutation({
+    mutationFn: register,
+
+    onSuccess: (data) => {
+      console.log(data);
+      localStorage.setItem("token", data.access_token);
+      navigate("/");
+    },
+
+    onError: (error) => {
+      console.error(error);
+    },
+  });
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("form");
+
+    mutation.mutate({
+      name,
+      email,
+      password,
+    });
   };
   return (
     <div className="w-full max-w-md mx-auto px-6 sm:px-8 lg:px-0">

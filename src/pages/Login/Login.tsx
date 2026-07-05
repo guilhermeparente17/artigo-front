@@ -6,11 +6,37 @@ import { useState } from "react";
 import { PasswordInput } from "../../components/PasswordInput";
 import { Btn } from "../../components/Btn";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../../services/Auth/login";
+import { toast } from "sonner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: login,
+
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+      toast.success("Login feito com sucesso");
+      navigate("/");
+    },
+
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    mutation.mutate({
+      email,
+      password,
+    });
+  };
 
   function GoogleIcon() {
     return (
@@ -39,11 +65,6 @@ const Login = () => {
       </svg>
     );
   }
-
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("form");
-  };
 
   return (
     <div className="w-full max-w-md mx-auto px-6 sm:px-8 lg:px-0">
@@ -106,8 +127,16 @@ const Login = () => {
             </button>
           </div>
         </Field>
-        <Btn fullWidth type="submit" className="mt-2">
-          Entrar
+        {mutation.isError && (
+          <p className="text-sm text-red-500">E-mail ou senha inválidos.</p>
+        )}
+        <Btn
+          fullWidth
+          type="submit"
+          className="mt-2"
+          disabled={mutation.isPending}
+        >
+          {mutation.isPending ? "Entrando..." : "Entrar"}
         </Btn>
       </form>
 

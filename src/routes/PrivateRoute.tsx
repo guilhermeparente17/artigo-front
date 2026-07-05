@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 export function PrivateRoute() {
   const token = localStorage.getItem("token");
@@ -7,5 +8,10 @@ export function PrivateRoute() {
     return <Navigate to="/login" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <div>
+      <Sidebar />
+      <Outlet />
+    </div>
+  );
 }
