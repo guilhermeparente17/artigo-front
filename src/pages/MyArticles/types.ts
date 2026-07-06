@@ -17,7 +17,7 @@ type comments = {
   user: User;
 }[];
 
-export type ArticleDetail = {
+export type ArticleTypes = {
   id: string;
   title: string;
   likes: {
@@ -25,6 +25,8 @@ export type ArticleDetail = {
     id: string;
   }[];
   description: string;
+  createdAt: string;
+  updatedAt: string;
   content: string;
   tags: string[];
   cover: string;

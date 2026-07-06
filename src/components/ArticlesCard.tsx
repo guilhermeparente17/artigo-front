@@ -1,16 +1,20 @@
 import { Heart, MessageCircle } from "lucide-react";
-import type { Articles } from "../pages/Feed/types";
 import { Chip } from "./Chip";
 import { UAv } from "./Uav";
 import { cn } from "./utils";
+import { useCreateLike, useDeleteLike } from "../services/Likes/hooks";
+import { useAuthStore } from "../store/authSotre";
+import { toast } from "sonner";
+import type { ArticleTypes } from "../pages/MyArticles/types";
 
 export function ArticleCard({
   article,
   onClick,
 }: {
-  article: Articles;
+  article: ArticleTypes;
   onClick: () => void;
 }) {
+  const { user } = useAuthStore();
   // const me = useAuth((s) => s.user)!;
   // const { users, likes, comments, toggleLike } = useStore();
   // const author = users.find((u) => u.id === article.authorId);
@@ -18,9 +22,39 @@ export function ArticleCard({
   // const commentCount = comments.filter(
   //   (c) => c.articleId === article.id,
   // ).length;
-  const hasLiked = [].some(
-    (l) => l.articleId === article.id && l.userId === "123",
+
+  const userLike = article?.likes.find((like) => like.userId === user?.id);
+
+  const hasLiked = !!userLike;
+  const { mutateAsync: removeLike } = useDeleteLike(article.id);
+  const { mutateAsync: toggleLike, isPending: isLiking } = useCreateLike(
+    article.id,
   );
+
+  const handleLike = async () => {
+    if (!article) return;
+
+    try {
+      if (hasLiked && userLike) {
+        await removeLike({
+          id: userLike.id,
+          articleId: article.id,
+        });
+
+        toast("Curtida removida.", {
+          icon: "💔",
+        });
+      } else {
+        await toggleLike(article.id);
+
+        toast("Você curtiu este artigo!", {
+          icon: "❤️",
+        });
+      }
+    } catch {
+      toast.error("Erro ao atualizar a curtida.");
+    }
+  };
 
   return (
     <div
@@ -66,16 +100,16 @@ export function ArticleCard({
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  // toggleLike(article.id, me.id);
-                  // if (!hasLiked) toast("Curtido!", { icon: "❤️" });
+                  handleLike();
                 }}
+                disabled={isLiking}
                 className={cn(
-                  "flex items-center gap-1 transition-colors hover:text-accent",
+                  "flex items-center gap-1 transition-colors hover:text-accent disabled:opacity-50",
                   hasLiked && "text-accent",
                 )}
               >
                 <Heart size={13} fill={hasLiked ? "currentColor" : "none"} />
-                {0}
+                {article._count.likes}
               </button>
               <span className="flex items-center gap-1">
                 <MessageCircle size={13} />

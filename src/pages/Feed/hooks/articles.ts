@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Articles } from "../types";
 import { getFeedArticles } from "../../../services/Articles/getFeedArticles";
+import type { ArticleTypes } from "../../MyArticles/types";
 
 export const useArticles = () =>
-  useQuery<Articles[]>({
+  useQuery<ArticleTypes[]>({
     queryKey: ["articles"],
     queryFn: getFeedArticles,
   });

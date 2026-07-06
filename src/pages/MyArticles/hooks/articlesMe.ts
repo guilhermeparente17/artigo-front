@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getArticlesMe } from "../../../services/Articles/getArticlesMe";
-import type { ArticleDetail, ArticlesMeTypes } from "../types";
 import { getShowArticles } from "../../../services/Articles/showArticle";
 import { deleteArticle } from "../../../services/Articles/deleteArticle";
 import { deleteComment } from "../../../services/Comments/deleteComment";
+import type { ArticleTypes, ArticlesMeTypes } from "../types";
 
 export const useArticlesMe = () =>
   useQuery<ArticlesMeTypes[]>({
@@ -12,7 +12,7 @@ export const useArticlesMe = () =>
   });
 
 export const useShowArticle = (id: string) =>
-  useQuery<ArticleDetail>({
+  useQuery<ArticleTypes>({
     queryKey: ["show-article", id],
     queryFn: () => getShowArticles(id!),
     enabled: !!id,

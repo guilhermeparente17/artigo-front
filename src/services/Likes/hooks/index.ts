@@ -16,6 +16,9 @@ export function useCreateLike(articleId: string) {
         queryClient.invalidateQueries({
           queryKey: ["articles-me"],
         }),
+        queryClient.invalidateQueries({
+          queryKey: ["articles"],
+        }),
       ]);
     },
   });
@@ -31,6 +34,9 @@ export function useDeleteLike(articleId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["show-article", articleId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["articles"],
       });
     },
   });
