@@ -2,13 +2,13 @@ import { BookOpen } from "lucide-react";
 import { useArticles } from "./hooks/articles";
 import { ArticleCard } from "../../components/ArticlesCard";
 import { useState } from "react";
-import type { ArticlesTypes } from "./types";
+import type { Articles } from "./types";
 import { ArticleDetail } from "../../components/ArticleDetail";
 import Loading from "../../components/Loading";
 
 const Feed = () => {
   const { data: articles, isLoading } = useArticles();
-  const [selected, setSelected] = useState<ArticlesTypes | null>(null);
+  const [selected, setSelected] = useState<Articles | null>(null);
 
   if (isLoading) {
     return <Loading />;
@@ -45,7 +45,7 @@ const Feed = () => {
       )}
       {selected && (
         <ArticleDetail
-          article={selected}
+          articleId={selected?.id}
           open={!!selected}
           onClose={() => setSelected(null)}
         />

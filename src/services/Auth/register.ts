@@ -7,7 +7,6 @@ type RegisterProps = {
 };
 
 export async function register({ name, email, password }: RegisterProps) {
-  console.log(name, email, password);
   const { data } = await api.post("/auth/register", {
     name,
     email,

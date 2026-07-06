@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  FileText,
   LayoutDashboard,
   LogOut,
   Newspaper,
@@ -16,7 +17,6 @@ const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("dashboard");
   const { user, signOut } = useAuthStore();
   const navigate = useNavigate();
-  console.log(user);
 
   const adminNav = [
     {
@@ -38,9 +38,9 @@ const Sidebar = () => {
       key: "feed",
     },
     {
-      label: "Usuários",
-      icon: <Users size={15} />,
-      key: "users",
+      label: "Meus Artigos",
+      icon: <FileText size={15} />,
+      key: "my-articles",
     },
   ];
 
@@ -55,7 +55,6 @@ const Sidebar = () => {
   }, [user?.role]);
 
   const logout = () => {
-    console.log("logout");
     signOut();
   };
 
@@ -79,7 +78,10 @@ const Sidebar = () => {
         {nav.map((item) => (
           <button
             key={item.key}
-            onClick={() => setActiveItem(item.key)}
+            onClick={() => {
+              setActiveItem(item.key);
+              navigate(item.key);
+            }}
             className={cn(
               "w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
               activeItem === item.key

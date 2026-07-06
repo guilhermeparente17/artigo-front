@@ -24,8 +24,6 @@ const Login = () => {
       toast.success(`Bem vindo, ${data.user.name}`);
       signIn(data.user, data.token);
 
-      console.log(data.user.role);
-
       if (data.user.role === "USER") {
         navigate("/feed");
       } else {

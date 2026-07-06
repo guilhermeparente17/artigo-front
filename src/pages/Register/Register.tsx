@@ -18,9 +18,7 @@ const Register = () => {
   const mutation = useMutation({
     mutationFn: register,
 
-    onSuccess: (data) => {
-      console.log(data);
-      localStorage.setItem("token", data.access_token);
+    onSuccess: () => {
       navigate("/");
     },
 

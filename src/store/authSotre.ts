@@ -26,9 +26,6 @@ export const useAuthStore = create<AuthStore>()(
       token: null,
 
       signIn: (user, token) => {
-        console.log("Usuário logado:", user);
-        console.log("Token:", token);
-
         set({
           user,
           token,

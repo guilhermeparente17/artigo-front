@@ -1,11 +1,14 @@
-import type { ArticlesTypes } from "../pages/Feed/types";
+import { Heart, MessageCircle } from "lucide-react";
+import type { Articles } from "../pages/Feed/types";
 import { Chip } from "./Chip";
+import { UAv } from "./Uav";
+import { cn } from "./utils";
 
 export function ArticleCard({
   article,
   onClick,
 }: {
-  article: ArticlesTypes;
+  article: Articles;
   onClick: () => void;
 }) {
   // const me = useAuth((s) => s.user)!;
@@ -15,9 +18,9 @@ export function ArticleCard({
   // const commentCount = comments.filter(
   //   (c) => c.articleId === article.id,
   // ).length;
-  // const hasLiked = likes.some(
-  //   (l) => l.articleId === article.id && l.userId === me.id,
-  // );
+  const hasLiked = [].some(
+    (l) => l.articleId === article.id && l.userId === "123",
+  );
 
   return (
     <div
@@ -46,13 +49,13 @@ export function ArticleCard({
         <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
           {article.content}
         </p>
-        {/* {author && (
+        {article.user && (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <UAv user={author} size="xs" />
+              <UAv user={article.user} size="xs" />
               <div>
                 <div className="text-xs font-medium text-foreground">
-                  {author.name}
+                  {article.user.name}
                 </div>
                 <div className="text-[11px] text-muted-foreground">
                   {article.createdAt}
@@ -63,8 +66,8 @@ export function ArticleCard({
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  toggleLike(article.id, me.id);
-                  if (!hasLiked) toast("Curtido!", { icon: "❤️" });
+                  // toggleLike(article.id, me.id);
+                  // if (!hasLiked) toast("Curtido!", { icon: "❤️" });
                 }}
                 className={cn(
                   "flex items-center gap-1 transition-colors hover:text-accent",
@@ -72,15 +75,15 @@ export function ArticleCard({
                 )}
               >
                 <Heart size={13} fill={hasLiked ? "currentColor" : "none"} />
-                {likeCount}
+                {0}
               </button>
               <span className="flex items-center gap-1">
                 <MessageCircle size={13} />
-                {commentCount}
+                {0}
               </span>
             </div>
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );
