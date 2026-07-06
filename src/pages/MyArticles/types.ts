@@ -20,6 +20,10 @@ type comments = {
 export type ArticleDetail = {
   id: string;
   title: string;
+  likes: {
+    userId: string;
+    id: string;
+  }[];
   description: string;
   content: string;
   tags: string[];

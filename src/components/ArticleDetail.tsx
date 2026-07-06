@@ -14,6 +14,7 @@ import { TextArea } from "./TextArea";
 import { useCreateComment } from "../services/Comments/hooks";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import { useCreateLike, useDeleteLike } from "../services/Likes/hooks";
 
 export function ArticleDetail({
   open,
@@ -27,8 +28,13 @@ export function ArticleDetail({
   const { data: article, isLoading } = useShowArticle(articleId);
   const { user } = useAuthStore();
   const [text, setText] = useState("");
+  const userLike = article?.likes.find((like) => like.userId === user?.id);
+
+  const hasLiked = !!userLike;
 
   const { mutateAsync: createComment, isPending } = useCreateComment();
+
+  const { mutateAsync: removeLike } = useDeleteLike(articleId);
 
   const queryClient = useQueryClient();
 
@@ -52,6 +58,8 @@ export function ArticleDetail({
 
   const { mutateAsync: removeComment, isPending: isPendingDeleteComment } =
     useDeleteComment(articleId);
+  const { mutateAsync: toggleLike, isPending: isLiking } =
+    useCreateLike(articleId);
 
   const handleDeleteComment = async (commentId: string) => {
     try {
@@ -63,12 +71,29 @@ export function ArticleDetail({
     }
   };
 
-  const handleLike = () => {
-    //   toggleLike(article.id, me.id);
-    //   toast(hasLiked ? "Curtida removida." : "Você curtiu este artigo!", {
-    //     icon: hasLiked ? "💔" : "❤️",
-    //   });
-    // };
+  const handleLike = async () => {
+    if (!article) return;
+
+    try {
+      if (hasLiked && userLike) {
+        await removeLike({
+          id: userLike.id,
+          articleId: article.id,
+        });
+
+        toast("Curtida removida.", {
+          icon: "💔",
+        });
+      } else {
+        await toggleLike(article.id);
+
+        toast("Você curtiu este artigo!", {
+          icon: "❤️",
+        });
+      }
+    } catch {
+      toast.error("Erro ao atualizar a curtida.");
+    }
   };
 
   return (
@@ -113,15 +138,17 @@ export function ArticleDetail({
           <div className="flex items-center gap-5 py-4 border-t border-b border-border mb-6">
             <button
               onClick={handleLike}
+              disabled={isLiking}
               className={cn(
                 "flex items-center gap-1.5 text-sm font-medium transition-colors",
-                // hasLiked
-                //   ? "text-accent"
-                //   : "text-muted-foreground hover:text-accent",
+                hasLiked
+                  ? "text-accent"
+                  : "text-muted-foreground hover:text-accent",
               )}
             >
-              <Heart size={15} fill={1 ? "currentColor" : "none"} />
-              {0} {1 === 1 ? "curtida" : "curtidas"}
+              <Heart size={15} fill={hasLiked ? "currentColor" : "none"} />
+              {article?._count?.likes}{" "}
+              {article?._count?.likes === 1 ? "curtida" : "curtidas"}
             </button>
             <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <MessageCircle size={15} />

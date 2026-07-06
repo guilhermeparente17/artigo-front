@@ -8,7 +8,7 @@ api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
   // Não envia o token para as rotas de autenticação
-  const authRoutes = ["/auth/login", "/auth/register"];
+  const authRoutes = ["/login", "/register"];
 
   const isAuthRoute = authRoutes.some((route) => config.url?.includes(route));
 
