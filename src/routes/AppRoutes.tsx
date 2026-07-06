@@ -5,6 +5,7 @@ import { PrivateRoute } from "./PrivateRoute";
 import AppLayout from "./AppLayout";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import Feed from "../pages/Feed/Feed";
 
 export function AppRoutes() {
   return (
@@ -18,7 +19,8 @@ export function AppRoutes() {
 
         {/* Rotas privadas */}
         <Route element={<PrivateRoute />}>
-          <Route path="/" element={<div>dashboard</div>} />
+          <Route path="/dashboard" element={<div>dashboard</div>} />
+          <Route path="/feed" element={<Feed />} />
         </Route>
 
         {/* Página 404 */}

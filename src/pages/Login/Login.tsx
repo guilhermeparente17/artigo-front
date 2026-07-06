@@ -9,23 +9,32 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../../services/Auth/login";
 import { toast } from "sonner";
+import { useAuthStore } from "../../store/userStore";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { signIn } = useAuthStore();
 
   const mutation = useMutation({
     mutationFn: login,
 
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
-      toast.success("Login feito com sucesso");
-      navigate("/");
+      toast.success(`Bem vindo, ${data.user.name}`);
+      signIn(data.user, data.token);
+
+      if (data.user.role === "USER") {
+        navigate("/feed");
+      } else {
+        navigate("/dashboard");
+      }
     },
 
     onError: (error) => {
       console.error(error);
+      toast.error("Usuário ou senha inválidos");
     },
   });
 

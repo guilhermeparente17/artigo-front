@@ -1,17 +1,48 @@
-import { LayoutDashboard, Newspaper, Users } from "lucide-react";
+import { BookOpen, LayoutDashboard, Newspaper, Users } from "lucide-react";
 import { cn } from "./utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuthStore } from "../store/userStore";
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("dashboard");
-  const nav = [
+  const { user } = useAuthStore();
+
+  const adminNav = [
     {
       label: "Dashboard",
       icon: <LayoutDashboard size={15} />,
       key: "dashboard",
     },
-    { label: "Usuários", icon: <Users size={15} />, key: "users" },
+    {
+      label: "Usuários",
+      icon: <Users size={15} />,
+      key: "users",
+    },
   ];
+
+  const userNav = [
+    {
+      label: "Feed",
+      icon: <BookOpen size={15} />,
+      key: "feed",
+    },
+    {
+      label: "Usuários",
+      icon: <Users size={15} />,
+      key: "users",
+    },
+  ];
+
+  const nav = user?.role === "ADMIN" ? adminNav : userNav;
+
+  useEffect(() => {
+    if (user?.role === "USER") {
+      setActiveItem("feed");
+    } else {
+      setActiveItem("dashboard");
+    }
+  }, [user?.role]);
+
   return (
     <aside className="w-66 shrink-0 flex flex-col border-r border-border bg-card h-screen sticky top-0">
       <div className="px-4 py-4 border-b border-border">
@@ -28,7 +59,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <nav className="flex-1 p-2.5 space-y-3">
+      <nav className="flex-1 p-2.5 space-y-0.5">
         {nav.map((item) => (
           <button
             key={item.key}
