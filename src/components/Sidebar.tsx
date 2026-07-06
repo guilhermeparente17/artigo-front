@@ -1,11 +1,22 @@
-import { BookOpen, LayoutDashboard, Newspaper, Users } from "lucide-react";
+import {
+  BookOpen,
+  LayoutDashboard,
+  LogOut,
+  Newspaper,
+  Users,
+} from "lucide-react";
 import { cn } from "./utils";
 import { useEffect, useState } from "react";
-import { useAuthStore } from "../store/userStore";
+import { useAuthStore } from "../store/authSotre";
+import { useNavigate } from "react-router-dom";
+import { UAv } from "./Uav";
+import { toast } from "sonner";
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("dashboard");
-  const { user } = useAuthStore();
+  const { user, signOut } = useAuthStore();
+  const navigate = useNavigate();
+  console.log(user);
 
   const adminNav = [
     {
@@ -43,6 +54,11 @@ const Sidebar = () => {
     }
   }, [user?.role]);
 
+  const logout = () => {
+    console.log("logout");
+    signOut();
+  };
+
   return (
     <aside className="w-66 shrink-0 flex flex-col border-r border-border bg-card h-screen sticky top-0">
       <div className="px-4 py-4 border-b border-border">
@@ -77,13 +93,13 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      {/* {user && (
+      {user && (
         <div className="p-2.5 border-t border-border space-y-0.5">
           <button
-            onClick={() => setActive("profile")}
+            onClick={() => navigate("/profile")}
             className={cn(
               "w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition-colors",
-              active === "profile"
+              activeItem === "profile"
                 ? "bg-primary text-primary-foreground"
                 : "hover:bg-muted",
             )}
@@ -93,7 +109,7 @@ const Sidebar = () => {
               <div
                 className={cn(
                   "text-xs font-semibold truncate",
-                  active === "profile"
+                  activeItem === "profile"
                     ? "text-primary-foreground"
                     : "text-foreground",
                 )}
@@ -103,12 +119,12 @@ const Sidebar = () => {
               <div
                 className={cn(
                   "text-[10px]",
-                  active === "profile"
+                  activeItem === "profile"
                     ? "text-primary-foreground/60"
                     : "text-muted-foreground",
                 )}
               >
-                {darkMode ? "🌙 Escuro" : "☀️ Claro"}
+                {/* {darkMode ? "🌙 Escuro" : "☀️ Claro"} */}
               </div>
             </div>
           </button>
@@ -116,13 +132,14 @@ const Sidebar = () => {
             onClick={() => {
               logout();
               toast.info("Sessão encerrada.");
+              navigate("/login", { replace: true });
             }}
             className="w-full flex items-center gap-2 px-3 py-2 text-xs text-muted-foreground hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-colors"
           >
             <LogOut size={13} /> Sair
           </button>
         </div>
-      )} */}
+      )}
     </aside>
   );
 };

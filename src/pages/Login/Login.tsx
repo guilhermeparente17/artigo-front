@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../../services/Auth/login";
 import { toast } from "sonner";
-import { useAuthStore } from "../../store/userStore";
+import { useAuthStore } from "../../store/authSotre";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +21,6 @@ const Login = () => {
     mutationFn: login,
 
     onSuccess: (data) => {
-      localStorage.setItem("token", data.token);
       toast.success(`Bem vindo, ${data.user.name}`);
       signIn(data.user, data.token);
 
