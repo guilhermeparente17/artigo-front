@@ -9,7 +9,7 @@ export function PrivateRoute() {
   }
 
   return (
-    <div>
+    <div className="flex">
       <Sidebar />
       <Outlet />
     </div>
