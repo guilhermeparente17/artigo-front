@@ -3,6 +3,7 @@ import { getArticlesMe } from "../../../services/Articles/getArticlesMe";
 import type { ArticleDetail, ArticlesMeTypes } from "../types";
 import { getShowArticles } from "../../../services/Articles/showArticle";
 import { deleteArticle } from "../../../services/Articles/deleteArticle";
+import { deleteComment } from "../../../services/Comments/deleteComment";
 
 export const useArticlesMe = () =>
   useQuery<ArticlesMeTypes[]>({
@@ -30,3 +31,23 @@ export const useDeleteArticle = () => {
     },
   });
 };
+
+export function useDeleteComment(articleId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (commentId: string) => deleteComment(commentId),
+
+    onSuccess: () => {
+      // Atualiza a tela de detalhes do artigo
+      queryClient.invalidateQueries({
+        queryKey: ["show-article", articleId],
+      });
+
+      // Caso tenha listagem de artigos
+      queryClient.invalidateQueries({
+        queryKey: ["articles-me"],
+      });
+    },
+  });
+}

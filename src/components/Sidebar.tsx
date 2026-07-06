@@ -9,7 +9,7 @@ import {
 import { cn } from "./utils";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/authSotre";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { UAv } from "./Uav";
 import { toast } from "sonner";
 
@@ -17,6 +17,7 @@ const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("dashboard");
   const { user, signOut } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const adminNav = [
     {
@@ -47,12 +48,18 @@ const Sidebar = () => {
   const nav = user?.role === "ADMIN" ? adminNav : userNav;
 
   useEffect(() => {
-    if (user?.role === "USER") {
+    const path = location.pathname;
+
+    if (path.startsWith("/feed")) {
       setActiveItem("feed");
-    } else {
+    } else if (path.startsWith("/dashboard")) {
       setActiveItem("dashboard");
+    } else if (path.startsWith("/my-articles")) {
+      setActiveItem("my-articles");
+    } else {
+      setActiveItem("");
     }
-  }, [user?.role]);
+  }, [location.pathname]);
 
   const logout = () => {
     signOut();

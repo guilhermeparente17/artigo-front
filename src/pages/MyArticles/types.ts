@@ -14,10 +14,7 @@ export type ArticlesMeTypes = {
 type comments = {
   id: string;
   content: string;
-  user: {
-    name: string;
-    email: string;
-  };
+  user: User;
 }[];
 
 export type ArticleDetail = {

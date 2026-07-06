@@ -1,13 +1,19 @@
-import { Heart, MessageCircle, Send } from "lucide-react";
+import { Heart, MessageCircle, Send, Trash2 } from "lucide-react";
 import { Badge } from "./Badger";
 import { Modal } from "./Modal";
 import { cn } from "./utils";
 import { useState } from "react";
-import { useShowArticle } from "../pages/MyArticles/hooks/articlesMe";
+import {
+  useDeleteComment,
+  useShowArticle,
+} from "../pages/MyArticles/hooks/articlesMe";
 import { UAv } from "./Uav";
 import Loading from "./Loading";
 import { useAuthStore } from "../store/authSotre";
 import { TextArea } from "./TextArea";
+import { useCreateComment } from "../services/Comments/hooks";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function ArticleDetail({
   open,
@@ -22,11 +28,39 @@ export function ArticleDetail({
   const { user } = useAuthStore();
   const [text, setText] = useState("");
 
-  const postComment = () => {
-    // if (!text.trim()) return;
-    // addComment({ articleId: article.id, authorId: me.id, text });
-    // setText("");
-    // toast.success("Comentário publicado!");
+  const { mutateAsync: createComment, isPending } = useCreateComment();
+
+  const queryClient = useQueryClient();
+
+  const handleSubmit = async () => {
+    if (!text.trim()) return;
+
+    await createComment({
+      payload: {
+        content: text,
+        articleId: articleId,
+      },
+    });
+
+    queryClient.invalidateQueries({
+      queryKey: ["show-article", articleId],
+    });
+
+    setText("");
+    toast.success("Comentário publicado!");
+  };
+
+  const { mutateAsync: removeComment, isPending: isPendingDeleteComment } =
+    useDeleteComment(articleId);
+
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      await removeComment(commentId);
+
+      toast.success("Comentário excluído!");
+    } catch {
+      toast.error("Erro ao excluir comentário.");
+    }
   };
 
   const handleLike = () => {
@@ -87,11 +121,12 @@ export function ArticleDetail({
               )}
             >
               <Heart size={15} fill={1 ? "currentColor" : "none"} />
-              {1} {1 === 1 ? "curtida" : "curtidas"}
+              {0} {1 === 1 ? "curtida" : "curtidas"}
             </button>
             <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <MessageCircle size={15} />
-              {1} {1 === 1 ? "comentário" : "comentários"}
+              {article?.comments?.length}{" "}
+              {article?.comments?.length === 1 ? "comentário" : "comentários"}
             </span>
           </div>
           <div>
@@ -107,15 +142,26 @@ export function ArticleDetail({
               {article?.comments?.map((c) => {
                 return (
                   <div key={c.id} className="flex gap-2.5">
-                    <UAv user={article.user} size="sm" />
-                    <div className="flex-1 bg-muted/40 rounded-lg px-3 py-2">
-                      <div className="text-xs font-semibold text-foreground mb-0.5">
-                        {article.user.name}{" "}
-                        <span className="font-normal text-muted-foreground">
-                          · data de criação do comentario
-                        </span>
+                    <UAv user={c.user} size="sm" />
+                    <div className="flex w-full justify-between bg-muted/40 rounded-lg px-3 py-3">
+                      <div>
+                        <div className="text-xs font-semibold text-foreground mb-0.5">
+                          {c.user.name}{" "}
+                          <span className="font-normal text-muted-foreground">
+                            · data de criação do comentario
+                          </span>
+                        </div>
+                        <div className="text-sm text-foreground">
+                          {c.content}
+                        </div>
                       </div>
-                      <div className="text-sm text-foreground">{c.content}</div>
+                      <button
+                        onClick={() => handleDeleteComment(c.id)}
+                        disabled={isPendingDeleteComment}
+                        className="p-1.5 rounded hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors text-muted-foreground hover:text-red-600"
+                      >
+                        <Trash2 size={13} />
+                      </button>
                     </div>
                   </div>
                 );
@@ -132,13 +178,13 @@ export function ArticleDetail({
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault();
-                      postComment();
+                      handleSubmit();
                     }
                   }}
                 />
                 <button
-                  onClick={postComment}
-                  disabled={!text.trim()}
+                  onClick={handleSubmit}
+                  disabled={isPending || !text.trim()}
                   className="self-end p-2.5 bg-primary text-primary-foreground rounded-md hover:opacity-90 disabled:opacity-40 transition-opacity"
                 >
                   <Send size={13} />
