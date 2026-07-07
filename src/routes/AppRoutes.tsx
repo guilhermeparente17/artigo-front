@@ -7,6 +7,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Feed from "../pages/Feed/Feed";
 import MyArticles from "../pages/MyArticles/MyArticles";
+import Profile from "../pages/Profile/Profile";
 
 export function AppRoutes() {
   return (
@@ -23,6 +24,7 @@ export function AppRoutes() {
           <Route path="/dashboard" element={<div>dashboard</div>} />
           <Route path="/feed" element={<Feed />} />
           <Route path="/my-articles" element={<MyArticles />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         {/* Página 404 */}

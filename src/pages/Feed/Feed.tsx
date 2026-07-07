@@ -15,7 +15,7 @@ const Feed = () => {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 w-full">
       <div className="mb-8">
         <h1
           className="text-2xl font-bold text-foreground"
@@ -28,7 +28,7 @@ const Feed = () => {
         </p>
       </div>
       {articles?.length === 0 ? (
-        <div className="text-center py-20 text-muted-foreground">
+        <div className="text-center py-20 text-muted-foreground w-full flex justify-center items-center flex-col">
           <BookOpen size={40} className="mx-auto mb-3 opacity-20" />
           <p>Nenhum artigo de outros usuários ainda.</p>
         </div>

@@ -19,7 +19,7 @@ const Register = () => {
     mutationFn: register,
 
     onSuccess: () => {
-      navigate("/");
+      navigate("/login");
     },
 
     onError: (error) => {

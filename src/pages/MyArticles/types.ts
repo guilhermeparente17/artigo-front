@@ -9,6 +9,11 @@ export type ArticlesMeTypes = {
   cover: string;
   createdAt: string;
   updatedAt: string;
+  likes: {
+    userId: string;
+    id: string;
+  }[];
+  comments: comments;
 };
 
 type comments = {

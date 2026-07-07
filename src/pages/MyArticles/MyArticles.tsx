@@ -63,8 +63,6 @@ const MyArticles = () => {
       ) : (
         <div className="bg-card border border-border rounded-xl divide-y divide-border overflow-hidden">
           {articlesMe?.map((a) => {
-            // const lc = likes.filter((l) => l.articleId === a.id).length;
-            // const cc = comments.filter((c) => c.articleId === a.id).length;
             return (
               <div
                 key={a.id}
@@ -89,11 +87,11 @@ const MyArticles = () => {
                   <div className="flex items-center gap-3 mt-1.5 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Heart size={11} />
-                      {1}
+                      {a.likes.length}
                     </span>
                     <span className="flex items-center gap-1">
                       <MessageCircle size={11} />
-                      {2}
+                      {a.comments.length}
                     </span>
                     <div className="flex gap-1">
                       {a.tags.slice(0, 6).map((t) => (

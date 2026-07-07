@@ -38,6 +38,9 @@ export function useDeleteLike(articleId: string) {
       queryClient.invalidateQueries({
         queryKey: ["articles"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["articles-me"],
+      });
     },
   });
 }
