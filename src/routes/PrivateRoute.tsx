@@ -9,7 +9,7 @@ export function PrivateRoute() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex w-full">
       <Sidebar />
       <Outlet />
     </div>

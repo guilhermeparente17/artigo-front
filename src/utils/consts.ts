@@ -6,3 +6,12 @@ export const COVER_OPTIONS = [
   "https://images.unsplash.com/photo-1476610182048-b716b8518aae?w=800&h=400&fit=crop&auto=format",
   "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=400&fit=crop&auto=format",
 ];
+
+export const PALETTE = [
+  "#1e1b4b",
+  "#0d9488",
+  "#be185d",
+  "#b45309",
+  "#7c3aed",
+  "#0369a1",
+];

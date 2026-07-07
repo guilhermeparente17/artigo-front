@@ -13,10 +13,9 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import type { ArticlesMeTypes } from "./types";
 import { Badge } from "../../components/Badger";
-import "dayjs/locale/pt-br";
+
 import { ArticleDetail } from "../../components/ArticleDetail";
 import { DeleteArticleModal } from "../../components/DeleteArticleModal";
-dayjs.locale("pt-br");
 
 const MyArticles = () => {
   const [showForm, setShowForm] = useState(false);
