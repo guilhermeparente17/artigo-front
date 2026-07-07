@@ -56,6 +56,8 @@ const Sidebar = () => {
       setActiveItem("dashboard");
     } else if (path.startsWith("/my-articles")) {
       setActiveItem("my-articles");
+    } else if (path.startsWith("/users")) {
+      setActiveItem("users");
     } else {
       setActiveItem("");
     }
