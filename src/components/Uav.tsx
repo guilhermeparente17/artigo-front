@@ -5,7 +5,7 @@ export function UAv({
   user,
   size = "md",
 }: {
-  user: User;
+  user: User | null;
   size?: "xs" | "sm" | "md" | "lg";
 }) {
   const cls = {

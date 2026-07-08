@@ -87,7 +87,7 @@ const Feed = () => {
             )}
           </div>
           <Pagination
-            page={meta?.page}
+            page={meta?.page ?? 1}
             totalPages={meta?.totalPages ?? 1}
             onPageChange={setPage}
           />

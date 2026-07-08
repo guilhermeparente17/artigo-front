@@ -43,7 +43,7 @@ const MyArticles = () => {
     tag: debouncedTag,
   });
 
-  const articlesMe = data?.data;
+  const articlesMe = data?.data ?? [];
   const meta = data?.meta;
 
   return (
@@ -64,7 +64,7 @@ const MyArticles = () => {
         </div>
         <Btn
           onClick={() => {
-            setEditArticle(undefined);
+            setEditArticle(null);
             setShowForm(true);
           }}
         >
@@ -162,7 +162,7 @@ const MyArticles = () => {
             )}
           </div>
           <Pagination
-            page={meta?.page}
+            page={meta?.page ?? 1}
             totalPages={meta?.totalPages ?? 1}
             onPageChange={setPage}
           />

@@ -7,7 +7,7 @@ type UpdateArticle = {
     content: string;
     tags: string[];
     cover: string;
-    id: string;
+    id?: string;
   };
 };
 

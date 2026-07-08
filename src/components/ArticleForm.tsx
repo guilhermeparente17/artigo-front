@@ -61,7 +61,7 @@ export function ArticleForm({
     try {
       const payload = {
         title: data.title,
-        description: data.description,
+        description: data.description ?? "",
         content: data.content,
         tags: data.tagsRaw
           .split(",")
