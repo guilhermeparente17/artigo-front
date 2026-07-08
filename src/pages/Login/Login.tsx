@@ -108,7 +108,7 @@ const Login = () => {
 
       <Divider label="ou entre com seu e-mail" />
 
-      <form onSubmit={submit} className="space-y-4 mb-6">
+      <form onSubmit={submit} className="space-y-4 mb-6" autoComplete="off">
         <Field label="E-mail">
           <TextInput
             type="email"

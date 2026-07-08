@@ -3,16 +3,21 @@ import { getArticlesMe } from "../../../services/Articles/getArticlesMe";
 import { getShowArticles } from "../../../services/Articles/showArticle";
 import { deleteArticle } from "../../../services/Articles/deleteArticle";
 import { deleteComment } from "../../../services/Comments/deleteComment";
-import type { ArticleTypes, ArticlesMeTypes } from "../types";
+import type { Articles, ArticleTypes } from "../types";
 
-export const useArticlesMe = () =>
-  useQuery<ArticlesMeTypes[]>({
-    queryKey: ["articles-me"],
-    queryFn: getArticlesMe,
+export const useArticlesMe = (filters: {
+  page: number;
+  search: string;
+  author: string;
+  tag: string;
+}) =>
+  useQuery<ArticleTypes>({
+    queryKey: ["articles-me", filters],
+    queryFn: () => getArticlesMe(filters),
   });
 
 export const useShowArticle = (id: string) =>
-  useQuery<ArticleTypes>({
+  useQuery<Articles>({
     queryKey: ["show-article", id],
     queryFn: () => getShowArticles(id!),
     enabled: !!id,

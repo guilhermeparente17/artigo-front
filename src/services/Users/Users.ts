@@ -6,8 +6,28 @@ export async function getSummary() {
   return data;
 }
 
-export async function getUsers() {
-  const { data } = await api.get("/users");
+type Filters = {
+  search?: string;
+  role?: string;
+  page?: number;
+};
+
+export async function getUsers(filters: Filters) {
+  const params = new URLSearchParams();
+
+  if (filters.page) {
+    params.append("page", String(filters.page));
+  }
+
+  if (filters.search) {
+    params.append("search", filters.search);
+  }
+
+  if (filters.role) {
+    params.append("role", filters.role);
+  }
+
+  const { data } = await api.get(`/users?${params.toString()}`);
 
   return data;
 }

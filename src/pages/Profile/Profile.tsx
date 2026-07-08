@@ -90,10 +90,6 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="text-xs text-muted-foreground">
-          Membro desde{" "}
-          <span className="font-medium text-foreground">{user.createdAt}</span>
-        </div>
       </div>
 
       {/* Appearance */}
@@ -104,12 +100,14 @@ const Profile = () => {
           ) : (
             <Sun size={16} className="text-muted-foreground" />
           )}
-          dark mode
+
           <h2 className="font-semibold text-foreground text-sm">Aparência</h2>
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-foreground">Modo escuro</p>
+            <p className="text-sm font-medium text-foreground">
+              {darkMode ? "Modo Escuro" : "Modo Claro"}
+            </p>
             <p className="text-xs text-muted-foreground mt-0.5">
               Alterna o tema entre claro e escuro
             </p>

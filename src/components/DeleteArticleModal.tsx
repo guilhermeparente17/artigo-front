@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function DeleteArticleModal({ open, onClose, articleId }: Props) {
-  const { data: article, isLoading } = useShowArticle(articleId);
+  const { data, isLoading } = useShowArticle(articleId);
   const queryClient = useQueryClient();
 
   async function handleDelete() {
@@ -33,6 +33,8 @@ export function DeleteArticleModal({ open, onClose, articleId }: Props) {
       console.log(err);
     }
   }
+
+  const article = data;
 
   return (
     <Modal open={open} onClose={onClose} title="Excluir artigo">

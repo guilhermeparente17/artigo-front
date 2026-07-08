@@ -1,7 +1,23 @@
 import { api } from "../api";
 
-export async function getArticlesMe() {
-  const { data } = await api.get("/articles/me");
+type Filters = {
+  search?: string;
+  author?: string;
+  tag?: string;
+  page?: number;
+};
+
+export async function getArticlesMe(filters: Filters) {
+  const params = new URLSearchParams();
+
+  if (filters.page) params.append("page", String(filters.page));
+
+  if (filters.search) params.append("search", filters.search);
+
+  if (filters.author) params.append("author", filters.author);
+
+  if (filters.tag) params.append("tag", filters.tag);
+  const { data } = await api.get(`/articles/me?${params}`);
 
   return data;
 }

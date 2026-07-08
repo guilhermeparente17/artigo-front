@@ -5,13 +5,13 @@ import { cn } from "./utils";
 import { useCreateLike, useDeleteLike } from "../services/Likes/hooks";
 import { useAuthStore } from "../store/authSotre";
 import { toast } from "sonner";
-import type { ArticleTypes } from "../pages/MyArticles/types";
+import type { Articles } from "../pages/MyArticles/types";
 
 export function ArticleCard({
   article,
   onClick,
 }: {
-  article: ArticleTypes;
+  article: Articles;
   onClick: () => void;
 }) {
   const { user } = useAuthStore();

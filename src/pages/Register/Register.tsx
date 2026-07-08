@@ -7,6 +7,7 @@ import { PasswordInput } from "../../components/PasswordInput";
 import { Btn } from "../../components/Btn";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "../../services/Auth/register";
+import { toast } from "sonner";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Register = () => {
     mutationFn: register,
 
     onSuccess: () => {
+      toast.success("Cadastro efetuado com sucesso!");
       navigate("/login");
     },
 

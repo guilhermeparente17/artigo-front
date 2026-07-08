@@ -16,13 +16,7 @@ export type ArticlesMeTypes = {
   comments: comments;
 };
 
-type comments = {
-  id: string;
-  content: string;
-  user: User;
-}[];
-
-export type ArticleTypes = {
+export type Articles = {
   id: string;
   title: string;
   likes: {
@@ -39,5 +33,39 @@ export type ArticleTypes = {
   comments: comments;
   _count: {
     likes: number;
+  };
+};
+
+type comments = {
+  id: string;
+  content: string;
+  user: User;
+}[];
+
+export type ArticleTypes = {
+  data: {
+    id: string;
+    title: string;
+    likes: {
+      userId: string;
+      id: string;
+    }[];
+    description: string;
+    createdAt: string;
+    updatedAt: string;
+    content: string;
+    tags: string[];
+    cover: string;
+    user: User;
+    comments: comments;
+    _count: {
+      likes: number;
+    };
+  }[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
   };
 };
