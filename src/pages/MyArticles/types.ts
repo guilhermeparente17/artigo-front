@@ -33,6 +33,7 @@ export type Articles = {
   comments: comments;
   _count: {
     likes: number;
+    comments: number;
   };
 };
 
@@ -60,6 +61,7 @@ export type ArticleTypes = {
     comments: comments;
     _count: {
       likes: number;
+      comments: number;
     };
   }[];
   meta: {

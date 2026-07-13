@@ -13,6 +13,10 @@ export function useCreateComment() {
         queryKey: ["article", articleId],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: ["articles"],
+      });
+
       // invalida listas se precisar
       queryClient.invalidateQueries({
         queryKey: ["articles-me"],

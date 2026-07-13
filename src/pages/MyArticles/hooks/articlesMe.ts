@@ -49,6 +49,10 @@ export function useDeleteComment(articleId: string) {
         queryKey: ["show-article", articleId],
       });
 
+      queryClient.invalidateQueries({
+        queryKey: ["articles"],
+      });
+
       // Caso tenha listagem de artigos
       queryClient.invalidateQueries({
         queryKey: ["articles-me"],

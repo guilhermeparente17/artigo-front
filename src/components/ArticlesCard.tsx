@@ -6,6 +6,7 @@ import { useCreateLike, useDeleteLike } from "../services/Likes/hooks";
 import { useAuthStore } from "../store/authSotre";
 import { toast } from "sonner";
 import type { Articles } from "../pages/MyArticles/types";
+import dayjs from "dayjs";
 
 export function ArticleCard({
   article,
@@ -15,14 +16,6 @@ export function ArticleCard({
   onClick: () => void;
 }) {
   const { user } = useAuthStore();
-  // const me = useAuth((s) => s.user)!;
-  // const { users, likes, comments, toggleLike } = useStore();
-  // const author = users.find((u) => u.id === article.authorId);
-  // const likeCount = likes.filter((l) => l.articleId === article.id).length;
-  // const commentCount = comments.filter(
-  //   (c) => c.articleId === article.id,
-  // ).length;
-
   const userLike = article?.likes.find((like) => like.userId === user?.id);
 
   const hasLiked = !!userLike;
@@ -92,7 +85,7 @@ export function ArticleCard({
                   {article.user.name}
                 </div>
                 <div className="text-[11px] text-muted-foreground">
-                  {article.createdAt}
+                  {dayjs(article.createdAt).format("DD/MM/YYYY")}
                 </div>
               </div>
             </div>
@@ -113,7 +106,7 @@ export function ArticleCard({
               </button>
               <span className="flex items-center gap-1">
                 <MessageCircle size={13} />
-                {0}
+                {article._count.comments}
               </span>
             </div>
           </div>

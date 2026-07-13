@@ -12,12 +12,14 @@ import { toast } from "sonner";
 import { useAuthStore } from "../../store/authSotre";
 import { GoogleLogin } from "@react-oauth/google";
 import { googleLogin } from "../../services/Auth/google-login";
+import Loading from "../../components/Loading";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { signIn } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const mutation = useMutation({
     mutationFn: login,
@@ -48,6 +50,24 @@ const Login = () => {
     });
   };
 
+  const handleGoogleLogin = async (credential?: string) => {
+    if (!credential) return;
+
+    setIsLoading(true);
+
+    try {
+      const data = await googleLogin(credential);
+
+      signIn(data.user, data.token);
+
+      navigate(data.user.role === "USER" ? "/feed" : "/dashboard");
+    } catch (error) {
+      console.error("Erro login google", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="w-full max-w-md mx-auto px-6 sm:px-8 lg:px-0">
       <div className="mb-2 lg:hidden flex items-center gap-2">
@@ -72,32 +92,27 @@ const Login = () => {
         </p>
       </div>
 
-      <GoogleLogin
-        onSuccess={async (response) => {
-          if (!response.credential) {
-            return;
-          }
+      <div className="relative">
+        {!isLoading ? (
+          <GoogleLogin
+            onSuccess={(response) => handleGoogleLogin(response.credential)}
+            onError={() => console.log("Login Failed")}
+          />
+        ) : (
+          <button
+            disabled
+            className="flex h-10 w-full items-center justify-center rounded-md border bg-gray-100 text-gray-500"
+          >
+            Entrando...
+          </button>
+        )}
+      </div>
 
-          console.log(response);
-
-          try {
-            const data = await googleLogin(response.credential);
-            console.log(data);
-
-            signIn(data.user, data.token);
-            if (data.user.role === "USER") {
-              navigate("/feed");
-            } else {
-              navigate("/dashboard");
-            }
-          } catch (error) {
-            console.error("Erro login google", error);
-          }
-        }}
-        onError={() => {
-          console.log("Login Failed");
-        }}
-      />
+      {isLoading && (
+        <div className="mt-2">
+          <Loading message="Aguarde...." />
+        </div>
+      )}
 
       <Divider label="ou entre com seu e-mail" />
 
