@@ -92,7 +92,7 @@ const Login = () => {
         </p>
       </div>
 
-      <div className="relative w-full">
+      <div className="relative">
         {!isLoading ? (
           <GoogleLogin
             onSuccess={(response) => handleGoogleLogin(response.credential)}
@@ -101,7 +101,7 @@ const Login = () => {
         ) : (
           <button
             disabled
-            className="flex h-10 w-full items-center justify-center rounded-md border bg-gray-100 text-gray-500"
+            className="flex h-10 items-center justify-center rounded-md border bg-gray-100 text-gray-500"
           >
             Entrando...
           </button>
