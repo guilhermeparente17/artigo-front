@@ -92,7 +92,7 @@ const Login = () => {
         </p>
       </div>
 
-      <div className="relative">
+      <div className="relative w-full">
         {!isLoading ? (
           <GoogleLogin
             onSuccess={(response) => handleGoogleLogin(response.credential)}
